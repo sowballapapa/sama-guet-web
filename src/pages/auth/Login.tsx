@@ -3,7 +3,7 @@ import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../components/ui/card';
-import { PawPrint, ArrowLeft, Mail, Lock, Phone, Loader2 } from 'lucide-react';
+import { PawPrint, ArrowLeft, Mail, Lock,  Loader2 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import {toast} from 'react-toastify';
@@ -96,12 +96,12 @@ export function LoginPage() {
               <div className="space-y-2">
                 <Label htmlFor="username" className="text-foreground flex items-center gap-2">
                   <Mail className="w-4 h-4" />
-                  Email ou téléphone
+                  Email ou nom d'utilisateur
                 </Label>
                 <Input
                   id="username"
                   type="text"
-                  placeholder="exemple@mail.com ou +221 77 123 45 67"
+                  placeholder="exemple@mail.com ou utilisateur123"
                   value={loginData.username}
                   onChange={(e) => setLoginData({...loginData, username: e.target.value})}
                   className={`border-border bg-input-background focus:border-primary h-12 rounded-xl ${(errors.non_field_errors && !errors.non_field_errors.includes('passe')) ?'border-red-500':''}`}
