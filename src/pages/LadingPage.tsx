@@ -1,11 +1,20 @@
 import { useNavigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
 import { Card, CardContent } from "../components/ui/card";
-import { PawPrint, Heart, TrendingUp, Users, Calendar, Shield, Smartphone, BarChart3 } from "lucide-react";
+import {PawPrint, Heart, TrendingUp, Users, Calendar, Shield, Smartphone, BarChart3, Moon, Sun} from "lucide-react";
+import {useTheme} from "../hooks/useTheme.ts";
+import {useAuth} from "../hooks/useAuth.ts";
 
 
 function LandingPage() {
     const navigate = useNavigate();
+    const {theme, toggleTheme} =  useTheme();
+
+    const user = useAuth()
+    const isAdmin = user?.role === 'admin';
+    const isVet = user?.role === 'vet';
+    const isBreeder = user?.role === 'breeder';
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-muted/30 via-background to-primary/5">
@@ -21,20 +30,43 @@ function LandingPage() {
               <p className="text-xs text-muted-foreground">Gestion Intelligente de Bergerie</p>
             </div>
           </div>
-          <Button onClick={()=> navigate('/login')} variant="outline" className="rounded-full">
-            Connexion
-          </Button>
+            <div className="flex items-center gap-4">
+                <Button onClick={toggleTheme} variant="ghost" className="rounded-full border p-2">
+                    {theme === 'light' ? <Moon/> : <Sun/>}
+                </Button>
+                {user ? (
+                    <Button onClick={() => {
+                        if (isAdmin) navigate('/espace-admin');
+                        else if (isVet) navigate('/espace-vet');
+                        else if (isBreeder) navigate('/espace-eleveur');
+                    }} variant="outline" className="rounded-full px-6">
+                        Accéder à mon espace
+                    </Button>
+                ) : (
+                    <>
+                        <Button onClick={() => navigate('/login')} variant="outline" className="rounded-full px-6">
+                            Se connecter
+                        </Button>
+                        <Button onClick={() => navigate('/register')} className="rounded-full px-6 bg-primary hover:bg-primary/90">
+                            S'inscrire
+                        </Button>
+                    </>
+                )
+
+                }
+            </div>
         </div>
       </header>
 
       {/* Hero Section */}
       <section className="container mx-auto px-4 py-16 md:py-24">
         <div className="text-center max-w-4xl mx-auto animate-fadeIn">
-          <div className="inline-block px-4 py-2 bg-accent/20 text-accent-foreground rounded-full mb-6">
+          <div className="inline-block px-4 py-2 bg-accent/20 text-secondary rounded-full mb-6">
             <span className="flex items-center gap-2">
               <PawPrint className="w-4 h-4" />
               <span>Plateforme AgriTech pour le Sénégal</span>
             </span>
+
           </div>
           <h2 className="text-4xl md:text-5xl font-semibold mb-6 text-foreground">
             Gérez votre troupeau avec
@@ -44,10 +76,21 @@ function LandingPage() {
             Sama-Guet vous aide à suivre vos moutons, optimiser la reproduction, gérer la santé de votre troupeau et maximiser vos revenus. Une solution moderne et simple pour les éleveurs sénégalais.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button onClick={()=>navigate('/register')} size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90">
-              <PawPrint className="w-5 h-5 mr-2" />
-              Commencer gratuitement
-            </Button>
+              {user ? (
+                    <Button onClick={() => {if (isAdmin) navigate('/espace-admin');
+                        else if (isVet) navigate('/espace-vet');
+                        else if (isBreeder) navigate('/espace-eleveur');}} size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90">
+                        <PawPrint className="w-5 h-5 mr-2" />
+                        Accéder à mon espace
+                    </Button>
+                  ):(
+
+                      <Button onClick={()=>navigate('/register')} size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90">
+                          <PawPrint className="w-5 h-5 mr-2" />
+                          Commencer gratuitement
+                      </Button>
+                  )
+              }
             <Button variant="outline" size="lg" className="rounded-full px-8">
               <Smartphone className="w-5 h-5 mr-2" />
               Voir la démo
@@ -198,13 +241,33 @@ function LandingPage() {
           <div className="max-w-3xl mx-auto">
             <Calendar className="w-16 h-16 mx-auto mb-6 text-primary" />
             <h3 className="text-3xl font-semibold mb-4">Prêt à moderniser votre bergerie ?</h3>
-            <p className="text-lg text-muted-foreground mb-8">
-              Rejoignez des centaines d'éleveurs qui font confiance à Sama-Guet pour gérer leur troupeau
-            </p>
-            <Button onClick={()=>navigate('/register')} size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90">
-              <PawPrint className="w-5 h-5 mr-2" />
-              Créer mon compte gratuitement
-            </Button>
+              {user ? (
+                    <>
+
+                        <p className="text-lg text-muted-foreground mb-8">
+                            Prenez le contrôle de votre troupeau!
+                        </p>
+                        <Button onClick={() => {
+                            if (isAdmin) navigate('/espace-admin');
+                            else if (isVet) navigate('/espace-vet');
+                            else if (isBreeder) navigate('/espace-eleveur');
+                        }} size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90">
+                            <PawPrint className="w-5 h-5 mr-2" />
+                            Accéder à mon espace
+                        </Button>
+                    </>
+                  ):(
+                      <>
+                          <p className="text-lg text-muted-foreground mb-8">
+                              Rejoignez des centaines d'éleveurs qui font confiance à Sama-Guet pour gérer leur troupeau
+                          </p>
+                          <Button onClick={()=>navigate('/register')} size="lg" className="rounded-full px-8 bg-primary hover:bg-primary/90">
+                              <PawPrint className="w-5 h-5 mr-2" />
+                              Créer mon compte gratuitement
+                          </Button>
+                      </>
+                    )
+              }
             <p className="text-sm text-muted-foreground mt-4">
               Aucune carte de crédit requise • Installation en 2 minutes
             </p>
