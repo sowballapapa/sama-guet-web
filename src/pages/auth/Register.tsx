@@ -83,12 +83,14 @@ export function RegisterPage() {
     setFormData(prev => ({ ...prev, farm_country: formData.farm_region === 'Pas du Sénégal' ? '' : 'Sénégal' }));
   }, [formData.farm_region]);
 
+
   const farm_size = [
-    { value: 'small', label: 'Petite (1-50 animaux)' },
-    { value: 'medium', label: 'Moyenne (51-200 animaux)' },
-    { value: 'large', label: 'Grande (201-500 animaux)' },
-    { value: 'very_large', label: 'Très grande (500+ animaux)' }
-  ];
+        { value: "very_small", label: "Très Petite (1–10)" },
+        { value: "small", label: "Petite (11–50)" },
+        { value: "medium", label: "Moyenne (51–200)" },
+        { value: "large", label: "Grande (201–500)" },
+        { value: "very_large", label: "Très Grande (500+)" },
+   ];
 
   const validateStep = (step: number) => {
     const newErrors: Record<string, string> = {};
