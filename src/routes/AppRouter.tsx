@@ -11,6 +11,11 @@ import VetLayout from "../layouts/VetLayout";
 import VetDashboard from "../pages/vet/VetDashboard";
 import BreederDashboard from "../pages/breeder/BreederDashboard";
 import BreederLayout from "../layouts/BreederLayout";
+import FirstSpace from "../pages/breeder/FirstSpace.tsx";
+import BreederBaseAnimal from "../pages/breeder/animals/BreederBaseAnimal.tsx";
+import BreederHomeAnimal from "../pages/breeder/animals/BreederHomeAnimal.tsx";
+import BreederFirstAnimal from "../pages/breeder/animals/BreederFirstAnimal.tsx";
+import BreederAnimalList from "../pages/breeder/animals/BreederAnimalList.tsx";
 
 export default function AppRouter() {
 
@@ -26,12 +31,18 @@ export default function AppRouter() {
 
         {/* Routes privées */}
         <Route element={<PrivateRoute />}>
+            <Route path="creation-espace" element={<FirstSpace/>}/>
           <Route path="/profile" element={<Profile />} />
           {/* Espace Eleveur */}
           <Route element={<BreederRoute />}>
             <Route path="/espace-eleveur" element={<BreederLayout/>} >
-              <Route index element={<BreederDashboard/>} />
-            
+                <Route index element={<BreederDashboard/>} />
+                <Route path="sujets/" element={<BreederBaseAnimal/>}>
+                    <Route path="premier-sujet" element={<BreederFirstAnimal/>} />
+                    <Route path="" element={<BreederHomeAnimal/>} />
+                    <Route path="liste" element={<BreederAnimalList/>} />
+
+                </Route>
             </Route>
           </Route>
           
