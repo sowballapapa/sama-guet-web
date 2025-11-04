@@ -20,9 +20,9 @@ export const authService = {
         const token_refresh =localStorage.getItem('token_refresh')
         const res = await api.post('users/token/refresh/', {refresh: token_refresh})
         if (res){
-            localStorage.setItem('token_access', res.data.access)
-            localStorage.setItem('token_refresh', res.data.refresh)
-            localStorage.setItem('user', res.data.user)
+            localStorage.setItem("token_access", res.data.access);
+            localStorage.setItem("token_refresh", res.data.refresh);
+            localStorage.setItem('user', JSON.stringify(res.data.user))
         }
         return res
     }
