@@ -182,7 +182,7 @@ export default function AnimalForm({
                             <Label>Race *</Label>
                             <div className="flex justify-between items-center gap-4">
                                 <Select
-                                    value={animalForm.race_id ? animalForm.race_id.toString() : ""}
+                                    value={animalForm.race_id ? animalForm.race_id.toString() : animalForm?.race?.id ? animalForm.race_id = animalForm?.race?.id.toString() :""}
                                     onValueChange={(v) =>
                                         setAnimalForm({ ...animalForm, race_id: Number(v) })
                                     }
@@ -333,8 +333,8 @@ export default function AnimalForm({
                                     ))}
                                 </SelectContent>
                             </Select>
-                            {errors.sex && (
-                                <p className="text-red-500 text-sm mt-1">{errors.sex}</p>
+                            {errors.farm && (
+                                <p className="text-red-500 text-sm mt-1">{errors.farm}</p>
                             )}
                         </div>
 
@@ -493,7 +493,7 @@ export default function AnimalForm({
                 {openSections.characteristics && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
                         <div className="space-y-2">
-                            <Label>Poids (kg)</Label>
+                            <Label>Poids (en kg)</Label>
                             <Input
                                 type="number"
                                 value={animalForm.weight}
@@ -511,7 +511,7 @@ export default function AnimalForm({
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label>Hauteur (hg)</Label>
+                            <Label>Hauteur (hg en cm)</Label>
                             <Input
                                 type="number"
                                 value={animalForm.hg}
@@ -525,7 +525,7 @@ export default function AnimalForm({
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label>Longueur corps (lcs)</Label>
+                            <Label>Longueur corps (lcs en cm)</Label>
                             <Input
                                 type="number"
                                 value={animalForm.lcs}
@@ -539,7 +539,7 @@ export default function AnimalForm({
                             )}
                         </div>
                         <div className="space-y-2">
-                            <Label>Tour de poitrine (tp)</Label>
+                            <Label>Tour de poitrine (tp en cm)</Label>
                             <Input
                                 type="number"
                                 value={animalForm.tp}

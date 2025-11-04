@@ -106,6 +106,7 @@ function FirstSpace() {
 
     const handleCreateAnimal = async (e: React.FormEvent) => {
         e.preventDefault();
+        if (!validateAnimalForm()) return;
         setLoading(true);
         setErrors({});
 
