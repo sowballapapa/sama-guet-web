@@ -36,15 +36,18 @@ interface StoredUser {
 export function BreederSidebar({ currentPage, onPageChange, userRole, onLogout }: SidebarProps) {
     const [isCollapsed, setIsCollapsed] = useState(false);
     const [isMobileOpen, setIsMobileOpen] = useState(false);
-    const [storedUser, setStoredUser] = useState<StoredUser>({ name: "Utilisateur", role: userRole });
+    const [storedUser, setStoredUser] = useState<StoredUser>({ image:'' ,name: "Utilisateur", role: userRole });
+
 
     useEffect(() => {
         const storedUserRaw = localStorage.getItem("user");
         if (storedUserRaw) {
             try {
                 const parsed = JSON.parse(storedUserRaw);
+
                 setStoredUser({
-                    name: parsed.name || "Utilisateur",
+                    name: (parsed.firstname || parsed.lastname) ?
+                        parsed.firstname+ ' ' + parsed.lastname :  parsed.username || parsed.email,
                     role: parsed.role || userRole,
                 });
             } catch {}
@@ -188,7 +191,7 @@ export function BreederSidebar({ currentPage, onPageChange, userRole, onLogout }
                                     </AvatarFallback>
                                 </Avatar>
                                 {!isCollapsed && (
-                                    <div className="flex-1 text-left">
+                                    <div className="flex-1 text-left max-w-5/7">
                                         <p className="text-sm font-medium truncate">{storedUser.name}</p>
                                         <Badge
                                             className="text-xs"
@@ -197,7 +200,16 @@ export function BreederSidebar({ currentPage, onPageChange, userRole, onLogout }
                                                 color: "var(--color-sidebar-accent-foreground)",
                                             }}
                                         >
-                                            {storedUser.role}
+                                            {storedUser.role === 'vet' ?
+                                                (
+                                                    <span>Vétérinaire</span>
+                                                ):(storedUser.role === 'admin'?(
+                                                        <span>Administrateur</span>
+                                                    ):(
+                                                        <span>Eleveur</span>
+                                                    )
+                                                )
+                                            }
                                         </Badge>
                                     </div>
                                 )}
