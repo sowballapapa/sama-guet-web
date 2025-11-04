@@ -5,7 +5,7 @@ import { Input } from '../../../components/ui/input';
 import { Badge } from '../../../components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '../../../components/ui/avatar';
 
-import {Search, Filter, Plus, Eye, Edit, Heart, PawPrint, Trash} from 'lucide-react';
+import {Search, Filter, Plus, Eye, Edit, Heart, PawPrint, Trash, FileX2} from 'lucide-react';
 import {deleteAnimal, listAnimal} from "../../../services/animal.service.ts";
 import {toast} from "react-toastify";
 import NewAnimalModal from "../../../components/modals/breeder/NewAnimalModal.tsx";
@@ -226,7 +226,7 @@ function BreederHomeAnimal() {
 
                 {/* Animals Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                    {filteredSheep.map((sheep) => (
+                    {filteredSheep && filteredSheep.map((sheep) => (
                         <Card key={sheep.id} className="border-secondary hover:shadow-lg transition-all duration-200 hover:scale-105">
                             <CardHeader className="pb-3">
                                 <div className="flex items-center justify-between">
@@ -323,6 +323,11 @@ function BreederHomeAnimal() {
                             </CardContent>
                         </Card>
                     ))}
+                    {filteredSheep.length==0 &&
+                        (<div className="flex gap-2 justify-center items-center text-gray-500 dark:text-gray-300 px-auto">
+                            <FileX2/>
+                            <strong>Aucun sujet enregistré</strong>
+                        </div>)}
                 </div>
             </div>
             {/* Modales */}
